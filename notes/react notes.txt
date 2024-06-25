@@ -1,0 +1,523 @@
+react notes
+# ES6
+1. array methods:
+# .map
+.map() method allows us to run a function on each item in the array, returning a new array as the result.
+example:
+const myArray = ['apple', 'banana', 'orange'];
+
+const myList = myArray.map((item) => <p>{item}</p>)
+//output: it shows the 3 things in 3 lines, basically reads one at a time, puts the value in {item} and redos everything
+
+2. Destructing array
+
+const bruh = ['bruh1', 'bruh2', 'bruh3'];
+
+const [1,2,3] = bruh;
+// if u wish to leave something out then
+const [1,,3] = bruh;
+
+//another method
+const vechileONE={
+brand:'ford',
+color:'red'
+}
+ myVehicle(vehicleOne);
+function myVehicle({color,brand}){
+const message = 'My' + color + brand;
+}
+//they don't need to be declared in a specific order ( I think)
+//array inside another array is extracted as
+function displayMesssage({array:{name}}){
+
+
+
+old way was 
+function myVehicle(vehicle) {
+  const message = 'My ' + vehicle.type + ' is a ' + vehicle.color + ' ' + vehicle.brand + ' ' + vehicle.model + '.';
+}
+
+
+3. Spread Operator
+cosnt numbersOne  [1,2,3];
+const numbersTwo = [4,5,6,7,8,9];
+const numbersCombied  [...numbersOne, ...numbersTWO];
+//this basically takes everything from both the arrays
+//if u wanna assign some of them to variables and other to an array;
+const [one,two,...rest] = numbersTwo;
+
+
+4.Modules
+a. Exports
+	theres 2 types of exports, named and default
+I. named exports
+	can be created inline individually or all at once a bottom
+examples;
+in a js file:
+export const name = "Jesse"
+export const age = 40
+
+all at ones in bottom:
+const name = "jessse"
+consot age = 40
+
+export {name,age}
+
+II.Default exports
+can only have one dafult export in a file
+
+const message = () = {
+	const name = "jesse";
+	const age = 40;
+	return name + 'is' + age + 'years old';
+};
+
+export default message;
+
+b.Import
+Two ways to import files.
+a. import named exports from another file.js
+import {name,age} from "./file.js";
+
+b.import default exports from file.js
+import message from "/file.js";
+
+5. Ternary Operator
+basically if/else statement but with swag lmao
+syntax ; 
+condition? <expression if true> : <expression if false>
+example;
+authenticated ? renderApp() : renderLogin();
+//value of authenticated[variable] will be checked for true or false
+this can be used inside a element that is to be rendered as such:
+const x = 2;
+const myElement = <h1>bruh {(x)<2? "no":"yes"}</h1>
+
+
+#Side
+React.StrictMode
+	basically gives a fat L to the old components or functions.
+	i. highlights potential problems in react application
+	ii. shits over the old methods; identifies components with unsafe lifecycle like "componentsWIllMount",
+	"ComponentsWIllRecieve" and "CompoinentsWIllUpdate" that might cause issues in the future versions of react.
+	iii.warns about deprecated APIs; basically helps the lazy ones to update their APis to the latest versions
+	iv. Detects Side Effects by double invoking certain lifecycle methods and functions 
+	syntax:
+	<ReactStrictMode>
+	<App />    -> this is the application data to be seen in the web
+	</ReactStrictMode>
+
+6.React render
+The render method in React inserts the specified React elements into the specified DOM container, updating the DOM to match the React elements.
+	two lines of code:
+	const container = document.getElementById('root');
+	const root = ReactDom.createRoot(contianer);
+	root.render(<p>bruh</p>)
+
+	OR if u wish to assign large amount of data,
+	const myelement = (
+  <table>
+    <tr>
+      <th>Name</th>
+    </tr>
+    <tr>
+      <td>John</td>
+    </tr>
+    <tr>
+      <td>Elsa</td>
+    </tr>
+  </table>
+);
+
+const container = document.getElementById('root');
+const root = ReactDOM.createRoot(container);
+root.render(myelement);
+
+	here, container is a variable of user's choice and root is the id assigned to the div in public/index.html
+what this does is basically to define an html element or elements where raect component should be displayed ?????
+
+7.React JSX (#using className instead of class, className="" not class= "")
+this allows user to write HTML elements in js and place the min the dom without createElement() and or appendChild methods
+example:
+(with JSX)
+const myElement = <h1>I Love JSX!</h1>;
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(myElement);
+(without JSX)
+const myElement = React.createElement('h1', {}, 'I do not use JSX!');
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(myElement);
+
+ReactDOM.createRoot ; creates a react root container that will manage the element (perhaps root?) which then gets stored in the root const
+
+react operations are handled inside {}
+eg:
+const element = <h1>bruh this is {5 + 5} times more annoying than normal js</h1>
+*output will be BRUH THIS IS 10 TIMES MORE ANNOYING THAN NORMAL JS
+
+in jsx code, if u wanna use multiple tags, it is necessary to wrap them inside awrapper tag such as div or fragment<></>
+eg
+<>	or <div>
+<p>hi</p>
+<p>bruh</p>
+</>   or </div>
+
+8.React components
+	components are like functions that return HTML elements
+	when creating a react component the name of the component must start with an uppercase letter
+	two types, class component and function component:
+	i.class component:
+	class Bruh extends React.Component{
+		render(){
+			return <h2>bruh</h2>;
+		}
+	}
+#extending react.component in Bruh means that Bruh inherits the data inside the {} after which it gets rendered????
+
+	ii.function compoennet
+	function Bruh(){
+		return <h2>bruh</h2>;
+	}
+
+both of these create a Bruh component in the "root" element
+
+const root = ReactDom.createRoot(document.getElementById('root));
+root.render(<Bruh />);
+
+#Props
+	components passed as props [ properties ].
+	props = function arguments which can be sent into the components are attributes.
+	function Car(props) {
+	  return <h2>I am a {props.color} Car!</h2>;
+	}
+	
+	const root = ReactDOM.createRoot(document.getElementById('root'));
+	root.render(<Car color="red"/>);
+	if u wanna use <car color = {red} /> then u gotta define the 'red' variable first with const red = red 
+
+
+	components can be used inside components as such:
+	function bruh1(){
+		return <h1>bruh1</h1>;
+	}
+
+	// for functions like this : const carInfo = {name:"ford", model:"mustang"};
+	// return <h2>i use a {props.brand.model}</h2>
+	// and in assiging the thing, <Car brand = {carInfo} /> 
+	function bruh2(){
+		return (
+			<>
+			<h1>bruh 2 comes after </h1>
+			<bruh1 />
+			</>
+		);
+	}
+
+#Suggested to create components in a different js file
+// in Car.js
+function Car() {
+  return <h2>Hi, I am a Car!</h2>;
+}
+
+export default Car;
+
+// in application
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import Car from './Car.js';
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(<Car />);
+
+
+9. React Events
+	similar to html; click, change,mouseover etc. but written in camelCase syntax.
+	and event handlers are inside {}
+	eg: onClick = {shoot} instead of onclick = "shoot()"
+
+function Football() {
+  const shoot = (a) => {
+	alert(a);
+  }
+
+  return (
+	<button onClick={() => shoot("Goal!")}>Take the shot!</button>
+  );
+}
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(<Football />);
+
+10. React conditional rendering
+example:
+
+function Goal(props) {
+  const isGoal = props.isGoal;
+  if (isGoal) {
+    return <MadeGoal/>;
+  }
+  return <MissedGoal/>;
+}
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(<Goal isGoal={false} />);
+
+if the goal is true, it reads the MadeGoal first and returns it before even reaching the missedgoal so it gets skipped even if its outside the 
+if statement.
+
+11. React lists
+map()- renders lists with loops.
+			PROBLEM- KEYS? ????????????????????????????????????????????????????????
+
+
+11. React Forms
+	in react data is usually handled by the components.
+	cancontrol changes by adding event handlers in the onChange attribute.
+	and use the useState hook to keep track of each inputs.
+	eg
+	import { useState } from 'react';
+	import ReactDOM from 'react-dom/client';
+	
+	function MyForm() {
+	  const [inputs, setInputs] = useState({});
+	
+	  const handleChange = (event) => {
+		const name = event.target.name;
+		const value = event.target.value;
+		setInputs(values => ({...values, [name]: value}))
+	  }
+	
+	  const handleSubmit = (event) => {
+		event.preventDefault();
+		alert(inputs);
+	  }
+	
+	  return (
+		<form onSubmit={handleSubmit}>
+		  <label>Enter your name:
+		  <input 
+			type="text" 
+			name="username" 
+			value={inputs.username || ""} 
+			onChange={handleChange}
+		  />
+		  </label>
+		  <label>Enter your age:
+			<input 
+			  type="number" 
+			  name="age" 
+			  value={inputs.age || ""} 
+			  onChange={handleChange}
+			/>
+			</label>
+			<input type="submit" />
+		</form>
+	  )
+	}
+	
+	const root = ReactDOM.createRoot(document.getElementById('root'));
+	root.render(<MyForm />);
+
+12.react css
+ return (
+    <>
+      <h1 style={{color: "red"}}>Hello Style!</h1>
+      <p>Add a little style!</p>
+    </>
+  );
+  or
+  const Header = () => {
+	const myStyle = {
+	  color: "white",
+	  backgroundColor: "DodgerBlue",
+	  padding: "10px",
+	  fontFamily: "Sans-Serif"
+	};
+	return (
+	  <>
+		<h1 style={myStyle}>Hello Style!</h1>
+		<p>Add a little style!</p>
+	  </>
+	);
+  }
+  or use a different file like app.css and import it
+  import './App.css';
+
+  13. HOOKS
+		i. useState.
+		syntax:
+		import React, {useState} from "react";
+		function E{
+			const[A,setA] = useState("bruh");
+			return(
+				<button type="button" onClick = { () => setA("this is the changed value")} </button>
+			);
+		}
+
+		here, A is the varibale where the initial data is stored, and the varibale wher the value is changed. setA is the varible that passes 
+		the variable to A when it is called in a function inside event handler. here, the value of A gets changed to the value inside 
+		button.settA("") when the event is called.
+
+		ii.useEffect
+		no idea
+
+		iii. useContext
+		this is used with useState, useState must be held by the highest parent component in the stack taht requires access to the state.
+		#theory1; it declares a consotant universally to be used in any of the components inside the js? eg:
+
+		multiple ways to assign value,
+		a. using context provider [ <UserContext.Provider value = {user}> </UserContext.Provider> ]
+		requires this in import 
+		import { useState, createContext } from "react";
+		proper example:
+		function Component1() {
+		  const [user, setUser] = useState("Jesse Hall");
+		
+		  return (
+			<UserContext.Provider value={user}>
+			  <h1>{`Hello ${user}!`}</h1>
+			  <Component2 user={user} />
+			</UserContext.Provider>
+		  );
+		}
+
+		a value is provided to user on line 2, which is then called in the usercontext.provider syntax and all the components inside
+		that tree will have access to the user value????
+
+		b. using useContext hook
+		requires import { useState, createContext, useContext } from "react";
+		const UserContext = createContext();
+
+			function Component1() {
+			// State to hold the user information
+			const [user, setUser] = useState("Jesse Hall");
+
+			return (
+				// Provide the user state as the context value
+				<UserContext.Provider value={user}>
+				<h1>{`Hello ${user}!`}</h1>
+				<Component2 />
+				</UserContext.Provider>
+			);
+			}
+
+			function Component2() {
+			// Consume the context value
+			const user = useContext(UserContext);
+
+			return (
+				<>
+				<h1>Component 2</h1>
+				<h2>{`Hello from Component 2, ${user}!`}</h2>
+				<Component3 />
+				</>
+			);
+			}
+			in this  code const UserContext = createContext(); creates a context for the value to be passed throughout the components.
+		the line <UserContext.Provider value={user}> calls the value of 'user' for the components inside the usercontext.provider.
+		in order to use the user value in any of the components, they must consume the context value through const user = useContext(UserContext);
+
+
+		iv. useRef
+		useRef is used to persist a value across renders without causing re-renders when the value changes.
+	calling useRef; const refObject = useRef(initialValue);
+	the ref property has a single property 'current' ?????????????????????
+	const refObject = { current: initialValue };
+	the current property is where the mutable value is stored, the user can read and write in this property without re-render, this makes ite
+	different than state
+	example 1: accessing DOM elements
+
+function TextInputWithFocusButton() {
+  const inputEl = useRef(null);
+  const onButtonClick = () => {
+    // `current` points to the mounted DOM node
+    inputEl.current.focus();
+  };
+  return (
+    <>
+      <input ref={inputEl} type="text" />
+      <button onClick={onButtonClick}>Focus the input</button>
+    </>
+  );
+}
+export default TextInputWithFocusButton;
+
+	example 2: to store previous valuesfunction PreviousStateComponent() {
+  const [count, setCount] = useState(0); // State to hold the current count
+  const prevCountRef = useRef(); // Ref to hold the previous count
+
+  useEffect(() => {
+    // Update the ref to the current count on each render
+    prevCountRef.current = count;
+  });
+
+  const prevCount = prevCountRef.current; // Access the previous count value
+
+  return (
+    <div>
+      <h1>Current Count: {count}</h1>
+      <h2>Previous Count: {prevCount}</h2>
+      <button onClick={() => setCount(count + 1)}>Increment</button>
+    </div>
+  );
+}
+
+		v. useReducer
+	similar to useState hook
+	syntax: useReducer(<reducer>, <initialState>)
+initial state can be a simple value but usually contains an object.
+// Define the initial state of the counter
+const initialState = { count: 0 };
+
+// Define a reducer function
+function reducer(state, action) {
+  switch (action.type) {
+    case 'increment':
+      return { count: state.count + 1 };
+    case 'decrement':
+      return { count: state.count - 1 };
+    case 'reset':
+      return { count: 0 };
+    default:
+      throw new Error();
+  }
+}
+
+function Counter() {
+  // Use the useReducer hook
+  const [state, dispatch] = useReducer(reducer, initialState);
+
+  return (
+    <div>
+      <h1>Count: {state.count}</h1>
+      <button onClick={() => dispatch({ type: 'increment' })}>Increment</button>
+      <button onClick={() => dispatch({ type: 'decrement' })}>Decrement</button>
+      <button onClick={() => dispatch({ type: 'reset' })}>Reset</button>
+    </div>
+  );
+}
+	here, dispatch sends the action.type to the switch  case, 
+	in the line, const [state, dispatch] = useReducer(reducer, initialState); reducer and intialState are parameters.
+	#reducer specifies how the state should be updated based on dispatched actions. takes current state and action as parameters and returns the
+	new state.
+	#initialState, this is the value that gets shown when the code is first rendered.
+	#'state' this holds the current value, just as in useState.
+	#'dispatch'function used for dispatching actions to the reducer. when calling dispatch(action). it triggers the reducer function with provided action.
+	# in summary, it initializes a 'state' variable with the inital state provided by "initialState", sets up a dispatch funtion that can be
+	used to send actions to the 'reducer' function for state updates. reducer function determines how the state should be changed based on the dispatched actions.
+	// Dispatching different kinds of values
+dispatch('increment'); // Dispatching a string action type
+dispatch(42); // Dispatching a number
+dispatch(true); // Dispatching a boolean
+dispatch({ type: 'setCount', payload: 10 }); // Dispatching an action object with payload
+dispatch({ type: 'toggle' }); // Dispatching an action object for toggle
+
+
+		vi. useCallback (similar to useMemo)
+		The React useCallback Hook returns a memoized callback function.
+		The useCallback Hook only runs when one of its dependencies update.
+		useCallback returns a memorized function while useMemo returns a memorized value.
+		this prevents re-rendering unless one of its props have been modified or when passing functions as props to child components.
+		
